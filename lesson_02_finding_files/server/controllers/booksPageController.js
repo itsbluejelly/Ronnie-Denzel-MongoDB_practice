@@ -25,7 +25,7 @@ async function getController(req, res, next){
     eventLogger(req.path, req.method, 'eventLogs.txt')
 
     try{
-        const savedBooks = await BookModel.find().select("title author pages genre rating")
+        const savedBooks = await BookModel.find(req.body.query || null).select(req.body.selectedFields || null)
         res.status(200).json(savedBooks)
         eventLogger("Obtaining saved books from collection successful", savedBooks, 'databaseLogs.txt')
     }catch(error){
