@@ -9,7 +9,7 @@ const BookSchema = new Schema({
     author: {
         type: String,
         required: [true, "You need to have an author for the book"],
-        minLength: [3, "The writer must have a minimum of 1 character"]
+        minLength: [3, "The writer must have a minimum of 3 characters"]
     },
     pages: {
         type: Number,

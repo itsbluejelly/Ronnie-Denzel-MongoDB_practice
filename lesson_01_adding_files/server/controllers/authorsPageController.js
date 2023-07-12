@@ -1,13 +1,13 @@
 const eventLogger = require('../middleware/eventLogger')
-const BookModel = require('../model/Book')
+const AuthorModel = require('../model/Author')
 
 async function postController(req, res, next){
     eventLogger(req.path, req.method, 'eventLogs.txt')
 
     try{
-        const book = await BookModel.create(req.body)
+        const author = await AuthorModel.create(req.body)
         res.status(201).send("Post was successful")
-        eventLogger("Post to books collection was successful", book, 'databaseLogs.txt')
+        eventLogger("Post to authors collection was successful", author, 'databaseLogs.txt')
     }catch(error){
         res.status(400).json({
             error: {
