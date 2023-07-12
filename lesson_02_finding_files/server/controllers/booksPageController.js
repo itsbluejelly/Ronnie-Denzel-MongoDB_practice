@@ -25,7 +25,12 @@ async function getController(req, res, next){
     eventLogger(req.path, req.method, 'eventLogs.txt')
 
     try{
-        const savedBooks = await BookModel.find(req.body.query || null).select(req.body.selectedFields || null)
+        const savedBooks = 
+            await BookModel
+                .find(req.body.find || null)
+                .select(req.body.select || null)
+                .limit(req.body.limit || null)
+                .sort(req.body.sort || null)
         res.status(200).json(savedBooks)
         eventLogger("Obtaining saved books from collection successful", savedBooks, 'databaseLogs.txt')
     }catch(error){
