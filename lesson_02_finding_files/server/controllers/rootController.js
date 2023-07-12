@@ -21,4 +21,27 @@ async function postController(req, res, next){
     next()
 }
 
-module.exports = postController
+async function getController(req, res, next){
+    eventLogger(req.path, req.method, 'eventLogs.txt')
+
+    try{
+        const savedBooks = await BookModel.find().select("title author pages genre rating")
+        res.status(200).json(savedBooks)
+        eventLogger("Obtaining saved books from collection successful", savedBooks, 'databaseLogs.txt')
+    }catch(error){
+        res.status(404).json({
+            error: {
+                [error.name]: error.message
+            }
+        })
+
+        eventLogger(error.name, error.message, 'errorLogs.txt')
+    }
+
+    next()
+}
+
+module.exports = {
+    postController,
+    getController
+}
