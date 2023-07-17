@@ -36,7 +36,28 @@ async function deleteController(req, res, next){
         res.status(200).send("Document deleted")
         eventLogger("Deletion of document from books collection successful", deletedBook, 'databaseLogs.txt')
     }catch(error){
-        res.status(400).json({error : {[error.name] : error.message}})
+        res.status(404).json({error : {[error.name] : error.message}})
+        eventLogger(error.name, error.message, 'errorLogs.txt')
+    }
+
+    next()
+}
+
+async function putController(req, res, next){
+    eventLogger(req.path, req.method, 'eventLogs.txt')
+
+    try{
+        const updatedBook = 
+            await BookModel
+                .findOneAndUpdate(
+                    req.body.actions ? req.body.actions.find : null,
+                    req.body.actions ? req.body.actions.update : null,
+                )
+                .select(req.body.actions.select ? req.body.actions.select : null)
+        res.status(200).json(updatedBook)
+        eventLogger(`One Book of id ${updatedBook._id} successfully updated`, updatedBook, 'databaseLogs.txt')
+    }catch(error){
+        res.status(404).json({error : {[error.name] : error.message}})
         eventLogger(error.name, error.message, 'errorLogs.txt')
     }
 
@@ -45,5 +66,6 @@ async function deleteController(req, res, next){
 
 module.exports = {
     getController,
-    deleteController
+    deleteController,
+    putController
 }

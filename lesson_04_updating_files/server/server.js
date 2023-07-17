@@ -17,6 +17,5 @@ app.use(express.json())
 app.use("/", booksPageRouter, authorsPageRouter)
 
 mongoose.connection.once('open', () => {
-    eventLogger("Connected to MongoDB", `Server listening on port ${port}`, 'databaseLogs.txt')
-    app.listen(port)
+    app.listen(port, () => eventLogger("Connected to MongoDB", `Server listening on port ${port}`, 'databaseLogs.txt'))
 })
