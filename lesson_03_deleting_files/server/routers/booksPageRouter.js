@@ -7,6 +7,7 @@ const booksPageRouter = express.Router()
 booksPageRouter.route("/books")
     .post(booksPageController.postController)
     .get(booksPageController.getController)
+    .delete(booksPageController.deleteController)
 
 booksPageRouter.use("/books", booksPageSubrouter)
 

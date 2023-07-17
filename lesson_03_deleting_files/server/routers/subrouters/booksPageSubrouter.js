@@ -3,6 +3,8 @@ const booksPageSubcontroller = require('../../controllers/subcontrollers/booksPa
 
 const booksPageSubrouter = express.Router()
 
-booksPageSubrouter.get("/book", booksPageSubcontroller)
+booksPageSubrouter.route("/book")
+    .get(booksPageSubcontroller.getController)
+    .delete(booksPageSubcontroller.deleteController)
 
 module.exports = booksPageSubrouter
