@@ -8,6 +8,7 @@ booksPageRouter.route("/books")
     .post(booksPageController.postController)
     .get(booksPageController.getController)
     .delete(booksPageController.deleteController)
+    .put(booksPageController.putController)
 
 booksPageRouter.use("/books", booksPageSubrouter)
 

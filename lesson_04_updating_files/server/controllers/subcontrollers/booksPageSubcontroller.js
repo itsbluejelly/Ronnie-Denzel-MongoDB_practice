@@ -52,6 +52,7 @@ async function putController(req, res, next){
                 .findOneAndUpdate(
                     req.body.actions ? req.body.actions.find : null,
                     req.body.actions ? req.body.actions.update : null,
+                    {new: true}
                 )
                 .select(req.body.actions.select ? req.body.actions.select : null)
         res.status(200).json(updatedBook)

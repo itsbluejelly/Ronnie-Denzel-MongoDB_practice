@@ -66,8 +66,32 @@ async function deleteController(req, res, next){
     next()
 }
 
+async function putController(req, res, next){
+    eventLogger(req.path, req.method, 'eventLogs.txt')
+
+    try{
+        const updatedBooks = await BookModel.updateMany(
+            req.body.actions ? req.body.actions.find : null,
+            req.body.actions ? req.body.actions.update : null,
+            {'new': true})
+        res.status(200).send(`${updatedBooks.modifiedCount} documents updated`)
+        eventLogger("Updating books from collection successful", `${updatedBooks.modifiedCount} books updated`, 'databaseLogs.txt')
+    }catch(error){
+        res.status(404).json({
+            error: {
+                [error.name]: error.message
+            }
+        })
+
+        eventLogger(error.name, error.message, 'errorLogs.txt')
+    }
+
+    next()
+}
+
 module.exports = {
     postController,
     getController,
-    deleteController
+    deleteController,
+    putController
 }
